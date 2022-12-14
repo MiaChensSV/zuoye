@@ -9,3 +9,9 @@ zone="europe-north1-c"
 
 #Terraform settings
 terraform_sa="terraform-sa@primal-stock-338302.iam.gserviceaccount.com"
+
+#GitHub repository
+repository="https://github.com/MiaChensSV/zuoye"
+repository_owner="MiaChensSV"
+repository_name="zuoye"
+component_dir="frontend"

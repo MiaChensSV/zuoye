@@ -1,3 +1,4 @@
+# Project settings
 variable "project" {
   type = string
 }
@@ -21,4 +22,28 @@ variable "region" {
 }
 variable "zone" {
   type = string
+}
+
+# Terraform setting
+variable "terraform_sa" {
+  type = string
+}
+
+# GitHub repository 
+variable "repository" {
+  type = string
+}
+variable "repository_owner" {
+  type = string
+}
+variable "repository_name" {
+  type = string
+}
+variable "component_dir" {
+  type = string
+}
+
+locals {
+  is_env_test = var.environment == "test"
+  is_env_prod = var.environment == "prod"
 }
