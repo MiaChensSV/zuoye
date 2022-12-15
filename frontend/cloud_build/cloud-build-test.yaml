@@ -43,9 +43,8 @@ steps:
   args: 
   - -c
   - |
-  europe-north1-docker.pkg.dev/primal-stock-338302/zuoye-frontend-test
     docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:latest
     docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag}
 
-    echo "LOG - IMAGE <-> europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:${BUILD_tag}"
+    echo "LOG - IMAGE <-> europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag}"
     echo "LOG - BUILD_TAG <-> ${BUILD_tag}"
