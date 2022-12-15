@@ -29,9 +29,7 @@ steps:
     # Read build vars
     source /workspace/build_vars
     # Build docker image
-    docker pull europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:latest || true
     docker build \
-    --cache-from europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:latest
     -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:latest \
     -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag} \
     -f Dockerfile .
