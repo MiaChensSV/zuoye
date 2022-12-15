@@ -14,7 +14,7 @@ steps:
   args:
   - -c
   - |
-    sha=$([ ${SHORT_SHA} ] && echo $SHORT_SHA || echo "manual")
+    sha=$([ ${SHORT_SHA} ] && echo ${SHORT_SHA} || echo "manual")
     export BUILD_tag=$(date -u +%Y%m%dT%H%M%S)-${sha}
     env | grep "^BUILD_" > /workspace/build_vars 
 
