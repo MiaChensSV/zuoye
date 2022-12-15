@@ -8,47 +8,47 @@ timeout: 1200s
 
 steps:
 # Set the build tag
-- id: 'set-build-tag'
-  name: 'gcr.io/cloud-builders/gcloud'
-  dir: ${_COMPONENT_DIR}
-  entrypoint: '/bin/bash'
-  args:
-  - -c
-  - |
-    sha=$([ ${SHORT_SHA} ] && echo ${SHORT_SHA} || echo "manual")
-    export BUILD_tag=$(date -u +%Y%m%dT%H%M%S)-${sha}
-    env | grep "^BUILD_" > /workspace/build_vars 
+# - id: 'set-build-tag'
+#   name: 'gcr.io/cloud-builders/gcloud'
+#   dir: ${_COMPONENT_DIR}
+#   entrypoint: '/bin/bash'
+#   args:
+#   - -c
+#   - |
+#     sha=$([ ${SHORT_SHA} ] && echo ${SHORT_SHA} || echo "manual")
+#     export BUILD_tag=$(date -u +%Y%m%dT%H%M%S)-${sha}
+#     env | grep "^BUILD_" > /workspace/build_vars 
 
-# Build Docker image
-- id: 'build-docker-image'
-  name: 'gcr.io/cloud-builders/docker'
-  dir: ${_COMPONENT_DIR}
-  entrypoint: '/bin/bash'
-  args: 
-  - -c
-  - |
-    # Read build vars
-    source /workspace/build_vars
-    # Build docker image
-    docker build \
-    -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:latest \
-    -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag} \
-    -f Dockerfile .
+# # Build Docker image
+# - id: 'build-docker-image'
+#   name: 'gcr.io/cloud-builders/docker'
+#   dir: ${_COMPONENT_DIR}
+#   entrypoint: '/bin/bash'
+#   args: 
+#   - -c
+#   - |
+#     # Read build vars
+#     source /workspace/build_vars
+#     # Build docker image
+#     docker build \
+#     -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:latest \
+#     -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag} \
+#     -f Dockerfile .
 
-# Push Docker image
-- id: 'push-docker-image'
-  name: 'gcr.io/cloud-builders/docker'
-  dir: ${_COMPONENT_DIR}
-  entrypoint: '/bin/bash'
-  args: 
-  - -c
-  - |
-    source /workspace/build_vars
-    docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:latest
-    docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag}
+# # Push Docker image
+# - id: 'push-docker-image'
+#   name: 'gcr.io/cloud-builders/docker'
+#   dir: ${_COMPONENT_DIR}
+#   entrypoint: '/bin/bash'
+#   args: 
+#   - -c
+#   - |
+#     source /workspace/build_vars
+#     docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:latest
+#     docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag}
 
-    echo "LOG - IMAGE <-> europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag}"
-    echo "LOG - BUILD_TAG <-> ${BUILD_tag}"
+#     echo "LOG - IMAGE <-> europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag}"
+#     echo "LOG - BUILD_TAG <-> ${BUILD_tag}"
 
 # Terraform initialize
 - id: 'terraform-initialize'
@@ -68,7 +68,7 @@ steps:
   args: 
   - -c
   - |
-    terrafrom plan -var-file ${_TARGET_ENV}/settings.tfvars -out tfplan
+    terraform plan -var-file ${_TARGET_ENV}/settings.tfvars -out tfplan
 
 # Terraform apply
 - id: 'terraform-apply'
