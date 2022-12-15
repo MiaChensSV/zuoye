@@ -31,8 +31,8 @@ steps:
     # Build docker image
     # docker pull europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:latest || true
     docker build \
-    -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:latest \
-    -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:${BUILD_tag} \
+    -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:latest \
+    -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag} \
     -f Dockerfile .
 
 # Push Docker image
@@ -43,8 +43,9 @@ steps:
   args: 
   - -c
   - |
-    docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:latest
-    docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:${BUILD_tag}
+  europe-north1-docker.pkg.dev/primal-stock-338302/zuoye-frontend-test
+    docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:latest
+    docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}/image:${BUILD_tag}
 
     echo "LOG - IMAGE <-> europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:${BUILD_tag}"
     echo "LOG - BUILD_TAG <-> ${BUILD_tag}"
