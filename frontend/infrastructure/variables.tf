@@ -11,9 +11,6 @@ variable "component_name" {
 variable "environment" {
   type = string
 }
-variable "tf_state_bucket" {
-  type = string
-}
 variable "location" {
   type = string
 }

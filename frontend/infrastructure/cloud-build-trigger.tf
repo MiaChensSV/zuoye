@@ -13,10 +13,10 @@ resource "google_cloudbuild_trigger" "build-trigger-test" {
   }
 
   included_files = ["${var.component_dir}/**"]
-  ignored_files = [
-    "${var.component_dir}/cloud_build/**", 
-    "${var.component_dir}/infrastructure/**" 
-  ]
+  # ignored_files = [
+  #   "${var.component_dir}/cloud_build/**", 
+  #   "${var.component_dir}/infrastructure/**" 
+  # ]
 
   filename = "${var.component_dir}/cloud_build/cloud-build-${var.environment}.yaml"
 }

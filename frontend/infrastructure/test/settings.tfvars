@@ -1,5 +1,5 @@
 # Project settings
-project="gcp-study-hong-sun"
+project="primal-stock-338302"
 product="zuoye"
 component_name="frontend"
 environment="test"
@@ -8,7 +8,7 @@ region="europe-north1"
 zone="europe-north1-c"
 
 #Terraform settings
-terraform_sa="terraform-sa@primal-stock-338302.iam.gserviceaccount.com"
+terraform_sa="terraform@primal-stock-338302.iam.gserviceaccount.com"
 
 #GitHub repository
 repository="https://github.com/MiaChensSV/zuoye"

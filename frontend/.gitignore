@@ -25,3 +25,4 @@ yarn-error.log*
 # Terraform
 /infrastructure/.terraform/
 /infrastructure/.terraform.lock.hcl
+/infrastructure/tfplan
