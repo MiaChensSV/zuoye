@@ -1,0 +1,12 @@
+# User defined substitutions
+substitutions: 
+  _COMPONENT_DIR: frontend
+  _TARGET_ENV: test
+  _PRODUCT_NAME: zuoye
+
+steps:
+# Docker Build
+- id: 'build-docker-image'
+  name: 'gcr.io/cloud-builders/docker'
+  dir: ${_COMPONENT_DIR}
+  entrypoint: '/bin/bash'
