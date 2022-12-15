@@ -22,7 +22,7 @@ steps:
 - id: 'build-docker-image'
   name: 'gcr.io/cloud-builders/docker'
   dir: ${_COMPONENT_DIR}
-  enterpoint: '/bin/bash'
+  entrypoint: '/bin/bash'
   args: 
   - -c
   - |
