@@ -1,12 +1,50 @@
 # User defined substitutions
 substitutions: 
   _COMPONENT_DIR: frontend
+  _COMPONENT_NAME: frontend
   _TARGET_ENV: test
   _PRODUCT_NAME: zuoye
 
 steps:
-# Docker Build
+# Set the build tag
+- id: 'set-build-tag'
+  name: 'gcr.io/cloud-builders/gcloud'
+  dir: ${_COMPONENT_DIR}
+  entrypoint: '/bin/bash'
+  args:
+  - -c
+  - |
+    shar=${[ $SHORT_SHA ] && echo $SHOT_SHAR || echo "manual"}
+    export BUILD_tag=$(data -u +%Y%m%dT%H%M%S)-${sha}
+    env | grep "^BUILD_" > /workspace/build_vars 
+
+# Build Docker image
 - id: 'build-docker-image'
   name: 'gcr.io/cloud-builders/docker'
   dir: ${_COMPONENT_DIR}
-  entrypoint: '/bin/bash'
+  enterpoint: '/bin/bash'
+  args: 
+  - -c
+  - |
+    # Read build vars
+    source /workspace/build_vars
+    # Build docker image
+    docker pull europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:latest || true
+    docker build --cache-from europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:latest \
+    -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:latest \
+    -t europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:${BUILD_tag} \
+    -f Dockerfile .
+
+# Push Docker image
+- id: 'push-docker-image'
+  name: 'gcr.io/cloud-builders/docker'
+  dir: ${_COMPONENT_DIR}
+  enterpoint: '/bin/bash'
+  args: 
+  - -c
+  - |
+    docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:latest
+    docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:${BUILD_tag}
+
+    echo "LOG - IMAGE <-> europe-north1-docker.pkg.dev/${PROJECT_ID}/${_PRODUCT_NAME}-${_COMPONENT_NAME}-${_TARGET_ENV}:${BUILD_tag}"
+    echo "LOG - BUILD_TAG <-> ${BUILD_tag}"
