@@ -73,6 +73,7 @@ steps:
 # Terraform apply
 - id: 'terraform-apply'
   name: 'hashicorp/terraform:1.3.6'
+  dir: ${_COMPONENT_DIR}/infrastructure
   entrypoint: 'sh'
   args: 
   - -c
